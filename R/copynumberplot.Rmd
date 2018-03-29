@@ -1,0 +1,49 @@
+---
+title: "copynumber plot"
+author: "Bingru Sun"
+date: "27/03/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Chromosome plot
+
+Chromosome plots by deciding on the mean value of filtered segments which is set to be the points of fix distance between probes and plot each probe on the same value until the end point.
+
+```{r functions}
+load("~/Desktop/work/data/CCLE/new_seg_p.Rdata")
+createdot<-function(x){
+  x<-as.numeric(x)
+  data.frame(seq(from = x[3], to = x[4], by = x[7])[-1],rep(x[6],
+              length(seq(from = x[3], to = x[4], by = x[7])[-1])))
+  }
+plotcopynumber<-function(x){
+t <-createdot(x[1,])
+for (i in c(2:nrow(x))){ t<-rbind(t,createdot(x[i,]))}
+c <- paste(as.character(x[1,1]),'chromosome',as.character(x[1,2]),sep = ' ')
+plot(t,main= c,ylim=c(-4, 4),xlab = '',ylab = '')
+}
+plot_all<-function(x){
+  chromosomelist = c(1:22,'X','Y')
+  for (i in chromosomelist){
+    p<-subset(new_seg_p,CCLE_name== x & Chromosome== i)
+    plotcopynumber(p)
+  }
+}
+
+  
+```
+
+## making chromosome plots
+
+You can run the code and draw the chromosome plot for 1321N1_CENTRAL_NERVOUS_SYSTEM cell lines
+
+```{r 1321N1_CENTRAL_NERVOUS_SYSTEM chromosome plot }
+
+plot_all('1321N1_CENTRAL_NERVOUS_SYSTEM')
+```
+
+
