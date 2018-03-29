@@ -1,3 +1,20 @@
+---
+title: "plot for regulator mutated cell lines"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## change a bit for regulators
+
+
+## Code here
+
+
+
+```{r }
 mutation_o<-read.delim('~/Desktop/work/data/CCLE/CCLE_DepMap_18Q1_maf_20180207 (1).txt')
 mutation<-mutation_o
 mutation_s<-mutation_o[which(is.na(mutation_o$ExAC_AF)),]
@@ -21,19 +38,29 @@ colnames(mutatedcelllines_num)<-c('freq')
 plot(mutatedcelllines_num)
 hist(mutatedcelllines_num)
 plot(density(mutatedcelllines_num))
-mutatedcelllines_num[which(mutatedcelllines_num>50),]
+#mutatedcelllines_num[which(mutatedcelllines_num>50),]
 
 regulator<-read.delim('~/Desktop/work/analysis/analysis_on_mutation/Gene_regulators/regulator classification.txt')
 regulator<-regulator[,1]
 regulator<-as.character(regulator)
 regulator<-unique(regulator)
 
-mutatedcelllines_num[1]
 n<-row.names(mutatedcelllines_num)
 mtcl_regulator<-mutatedcelllines_num[which(n%in%regulator),]
-mtcl_regulator[mtcl_regulator>50]
 
 summary(mtcl_regulator)
+mtcl_regulator[mtcl_regulator>50]
+
+```
+
+## stat plot
+
+
+
+```{r pressure, echo=FALSE}
 plot(mtcl_regulator)
 hist(mtcl_regulator)
 plot(density(mtcl_regulator))
+```
+
+
